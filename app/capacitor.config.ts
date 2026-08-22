@@ -1,4 +1,4 @@
-import type { CapacitorConfig } from '@capacitor/cli';
+limport type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
   appId: 'com.bazaargo.loyalty',
@@ -8,7 +8,7 @@ const config: CapacitorConfig = {
   // The app needs real API routes (/api/stamp, /api/card) that only exist on
   // the deployed server — a bundled static export cannot run them.
   webDir: 'out',
-  bundledWebRuntime: false,
+  
   server: {
     // TODO: replace with the real production domain before building the release .aab
     url: 'https://REPLACE-WITH-YOUR-VERCEL-DOMAIN.vercel.app',
