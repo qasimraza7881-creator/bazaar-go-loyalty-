@@ -1,0 +1,8 @@
+{
+  "indexes": [
+    {"collectionGroup":"customers","queryScope":"COLLECTION","fields":[{"fieldPath":"businessId","order":"ASCENDING"},{"fieldPath":"lastVisit","order":"DESCENDING"}]},
+    {"collectionGroup":"transactions","queryScope":"COLLECTION","fields":[{"fieldPath":"businessId","order":"ASCENDING"},{"fieldPath":"createdAt","order":"DESCENDING"}]},
+    {"collectionGroup":"redemptions","queryScope":"COLLECTION","fields":[{"fieldPath":"businessId","order":"ASCENDING"},{"fieldPath":"redeemedAt","order":"DESCENDING"}]}
+  ],
+  "fieldOverrides": []
+}

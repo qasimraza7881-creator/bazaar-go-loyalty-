@@ -1,0 +1,12 @@
+{
+  "name": "Bazaar Go Loyalty",
+  "short_name": "Bazaar Go",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f7f4f2",
+  "theme_color": "#a5152f",
+  "icons": [
+    { "src": "/icons/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "/icons/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "maskable" }
+  ]
+}

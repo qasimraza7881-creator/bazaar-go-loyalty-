@@ -1,0 +1,37 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() { return request.auth != null; }
+    function userDoc() { return get(/databases/$(database)/documents/users/$(request.auth.uid)).data; }
+    function isAdmin() { return signedIn() && userDoc().role == "admin"; }
+    function isBusinessOwner(businessId) {
+      return signedIn() && userDoc().role == "business" && userDoc().businessId == businessId;
+    }
+    match /users/{uid} {
+      allow read: if signedIn() && (request.auth.uid == uid || isAdmin());
+      allow create: if signedIn() && request.auth.uid == uid;
+      allow update: if signedIn() && (request.auth.uid == uid || isAdmin());
+    }
+    match /businesses/{businessId} {
+      allow read: if isAdmin() || isBusinessOwner(businessId);
+      allow create: if signedIn();
+      allow update: if isAdmin() || isBusinessOwner(businessId);
+      allow delete: if isAdmin();
+    }
+    match /customers/{customerId} {
+      allow read: if isAdmin() || (signedIn() && resource.data.businessId == userDoc().businessId);
+      // Only an admin, or the business owner creating a customer that belongs
+      // to their own businessId, may create a customer doc from the client.
+      // The public /api/stamp scan flow writes via Firebase Admin (server),
+      // which bypasses these rules entirely, so it is unaffected.
+      allow create: if isAdmin() ||
+        (signedIn() && userDoc().role == "business" &&
+         request.resource.data.businessId == userDoc().businessId);
+      allow update: if isAdmin() || (signedIn() && resource.data.businessId == userDoc().businessId);
+      allow delete: if isAdmin();
+    }
+    match /{document=**} {
+      allow read, write: if isAdmin();
+    }
+  }
+}
