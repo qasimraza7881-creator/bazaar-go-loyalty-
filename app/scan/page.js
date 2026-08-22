@@ -7,6 +7,14 @@ import BottomNav from "../components/BottomNav";
 function parseShopToken(raw){
   const v = String(raw||"").trim();
   if(v.startsWith("BAZAARGO:")) return v.slice(9);
+  // New QR format is a real https://.../scan?t=TOKEN link. If the in-page
+  // camera scanner reads one of these (instead of the browser opening the
+  // link directly), pull the token back out of the URL.
+  try{
+    const u=new URL(v);
+    const t=u.searchParams.get("t");
+    if(t) return t;
+  }catch(e){}
   return v; // allow scanning a raw token too
 }
 

@@ -58,5 +58,13 @@ export async function POST(req) {
     exp: Date.now() + 1000 * 60 * 60 * 24 * 365
   });
 
-  return NextResponse.json({ ok: true, businessId, branchId, token, qrValue: `BAZAARGO:${token}` });
+  // Real https:// link, not a bare "BAZAARGO:token" string — a normal
+  // phone camera app can't do anything useful with plain text. This lets
+  // any camera app open /scan directly with the token already filled in.
+  const origin =
+    process.env.NEXT_PUBLIC_SITE_URL ||
+    `https://${req.headers.get("host")}`;
+  const qrValue = `${origin}/scan?t=${encodeURIComponent(token)}`;
+
+  return NextResponse.json({ ok: true, businessId, branchId, token, qrValue });
 }

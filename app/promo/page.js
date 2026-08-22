@@ -47,6 +47,12 @@ export default function Promo(){
     ].map(([i,t,d])=><section className="card" key={t}><div className="feature-icon">{i}</div><h3 style={{fontSize:14.5}}>{t}</h3><p className="muted" style={{fontSize:12.5}}>{d}</p></section>)}
    </div>
 
+   {/* ===== Categories strip ===== */}
+   <div style={{display:"flex",justifyContent:"center",gap:8,flexWrap:"wrap",marginTop:22}}>
+    {["☕ Cafés","💇 Salons","🏋️ Gyms","🚗 Car Wash","🛍️ Retail"].map(t=>
+     <span key={t} className="pill" style={{fontSize:12}}>{t}</span>)}
+   </div>
+
    {/* ===== Social proof ===== */}
    <section className="card" style={{marginTop:20,textAlign:"center",border:"1px solid #f0c9c9"}}>
     <div style={{fontSize:28,fontWeight:800,color:"#a5152f"}}>500+</div>

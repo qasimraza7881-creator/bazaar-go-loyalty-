@@ -1,4 +1,4 @@
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://bazaargo.example.com";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://bazaar-go-loyalty.vercel.app";
 
 export default function robots() {
   return {

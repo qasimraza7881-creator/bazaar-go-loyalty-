@@ -13,6 +13,21 @@ const adminMenuList=[["dashboard","Dashboard"],["businesses","Businesses"],["cus
 
 const mapUrl=(lat,lng)=>`https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
 
+// Picks a relevant fallback icon from the business's own category text so a
+// shop without a logo still shows something on-brand — a salon/barber shop
+// gets scissors, not the generic storefront emoji.
+function categoryIcon(category){
+ const c=(category||"").toLowerCase();
+ if(c.includes("cutting")||c.includes("barber")||c.includes("salon")||c.includes("hair")) return "✂️";
+ if(c.includes("spa")||c.includes("beauty")||c.includes("parlour")||c.includes("parlor")) return "💇";
+ if(c.includes("gym")||c.includes("fitness")) return "🏋️";
+ if(c.includes("cafe")||c.includes("café")||c.includes("restaurant")||c.includes("food")) return "☕";
+ if(c.includes("car")||c.includes("wash")||c.includes("auto")) return "🚗";
+ if(c.includes("jewel")) return "💎";
+ if(c.includes("retail")||c.includes("store")||c.includes("shop")||c.includes("boutique")) return "🛍️";
+ return "🏪";
+}
+
 // Saves a canvas as a PNG in a way that actually works on mobile browsers.
 // The old approach (a.download + a.click() on a detached <a>) is unreliable
 // on iOS Safari and many Android browsers — it either silently does nothing
@@ -230,7 +245,7 @@ function AdminDashboard(){
 
  {viewBiz&&<div className="modal"><div className="modalbox">
   <div className="pagehead"><h2>Business Details</h2><button className="btn" onClick={()=>setViewBiz(null)}>✕</button></div>
-  <div className="avatar" style={{marginBottom:15}}>{viewBiz.logo?<img src={viewBiz.logo}/>:"🏪"}</div>
+  <div className="avatar" style={{marginBottom:15}}>{viewBiz.logo?<img src={viewBiz.logo}/>:categoryIcon(viewBiz.category)}</div>
   <p><b>🏪 Business Name:</b> {viewBiz.name||"—"}</p>
   <p><b>👤 Owner Name:</b> {viewBiz.owner||"—"}</p>
   <p><b>📞 Phone:</b> {viewBiz.phone||"—"}</p>
@@ -491,7 +506,7 @@ function BusinessDashboard(){
    } else throw new Error("no-logo");
   }catch(e){
    ctx.fillStyle="#fdeceb"; ctx.beginPath(); ctx.arc(W/2,cy,92,0,Math.PI*2); ctx.fill();
-   ctx.fillStyle="#a5152f"; ctx.font="86px Arial"; ctx.fillText("🏪",W/2,cy+30);
+   ctx.fillStyle="#a5152f"; ctx.font="86px Arial"; ctx.fillText(categoryIcon(profile.category),W/2,cy+30);
   }
   ctx.lineWidth=5; ctx.strokeStyle="#a5152f"; ctx.beginPath(); ctx.arc(W/2,cy,92,0,Math.PI*2); ctx.stroke();
 
@@ -754,7 +769,7 @@ function BusinessDashboard(){
 
   if(page==="analytics")return <><h2>Analytics</h2><div className="stats">{[["Customers",customers.length],["Total Visits",totalVisits],["Total Stamps",totalStamps],["Rewards Redeemed",rewardsRedeemed]].map(x=><div className="stat" key={x[0]}><span className="muted">{x[0]}</span><b>{x[1]}</b></div>)}</div></>;
 
-  if(page==="profile")return <section className="card"><h2>Business Profile</h2><div className="profile-layout"><div><div className="avatar">{profile.logo?<img src={profile.logo}/>:"🏪"}</div><input ref={fileRef} type="file" accept="image/*" onChange={uploadLogo} hidden/><button className="btn" disabled={logoUploading} onClick={()=>fileRef.current?.click()}>{logoUploading?"Uploading…":"Upload / Change Picture"}</button>
+  if(page==="profile")return <section className="card"><h2>Business Profile</h2><div className="profile-layout"><div><div className="avatar">{profile.logo?<img src={profile.logo}/>:categoryIcon(profile.category)}</div><input ref={fileRef} type="file" accept="image/*" onChange={uploadLogo} hidden/><button className="btn" disabled={logoUploading} onClick={()=>fileRef.current?.click()}>{logoUploading?"Uploading…":"Upload / Change Picture"}</button>
    <div className="notice" style={{marginTop:15,fontSize:14}}>
     <p style={{margin:'4px 0'}}><b>📅 Registered:</b> {profile.createdAt?new Date(profile.createdAt).toLocaleDateString():"—"}</p>
     <p style={{margin:'4px 0'}}><b>📦 Package:</b> {profile.activePackage||"None"}</p>

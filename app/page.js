@@ -12,6 +12,26 @@ export default function Home(){
    </div>
    <h1 style={{color:"#fff",fontSize:"clamp(24px,5vw,36px)",lineHeight:1.15,margin:"6px 0 8px"}}>Collect rewards every time you visit.</h1>
    <p style={{color:"#ffe3e3",fontSize:13.5,maxWidth:520}}>Customer login nahi. Customer sirf shop ka QR scan karega, phir first visit par name + phone number add karega.</p>
+
+   {/* ===== Hero: live stamp-card visual ===== */}
+   <div className="card" style={{marginTop:20,padding:0,overflow:"hidden",maxWidth:360}}>
+    <div style={{padding:"14px 16px 4px"}}>
+     <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+      <div style={{display:"flex",alignItems:"center",gap:8}}>
+       <div className="shopLogo" style={{background:"#fdeceb",width:32,height:32,fontSize:15}}>☕</div>
+       <div style={{fontWeight:800,fontSize:13.5}}>Borcella Cafe</div>
+      </div>
+      <span className="pill" style={{margin:0,fontSize:10.5,color:"#a5152f",borderColor:"#e6c9c9"}}>4 of 5 stamps</span>
+     </div>
+     <div className="stampRow" style={{marginTop:12,marginBottom:4,gap:7}}>
+      {[1,2,3,4].map(i=><div key={i} className="stampCircle filled" style={{width:38,height:38,flex:"0 0 38px",fontSize:14}}>✓</div>)}
+      <div className="stampCircle gift" style={{width:38,height:38,flex:"0 0 38px",fontSize:16}}>🎁</div>
+     </div>
+    </div>
+    <div style={{padding:"8px 16px 14px"}}>
+     <p className="muted" style={{fontSize:12,margin:0}}>1 stamp away from a free reward — this is what your customers see.</p>
+    </div>
+   </div>
   </header>
 
   <div className="main" style={{maxWidth:700,paddingTop:16}}>
@@ -33,7 +53,39 @@ export default function Home(){
     <Link className="btn bigbtn" href="/login?role=admin">🛡️ Admin Login</Link>
    </div>
 
-   <h2 style={{marginTop:26,marginBottom:10}}>Why Bazaar Go</h2>
+   {/* ===== How it works ===== */}
+   <h2 style={{marginTop:30,marginBottom:10}}>How it works</h2>
+   <div className="grid2" style={{gridTemplateColumns:"repeat(3,1fr)"}}>
+    {[
+     ["1","📷","Scan the QR","Customer shop ke counter par QR scan karta hai — no app install."],
+     ["2","✍️","Add name & phone","Sirf first visit par — future visits automatic recognize."],
+     ["3","🎁","Earn & redeem","Har visit par ek stamp, target complete hone par free reward."],
+    ].map(([n,i,t,d])=>
+     <section className="card" key={n} style={{position:"relative"}}>
+      <span style={{position:"absolute",top:12,right:14,fontSize:11,fontWeight:800,color:"#e6c9c9"}}>{n}</span>
+      <div className="feature-icon">{i}</div><h3>{t}</h3><p className="muted">{d}</p>
+     </section>)}
+   </div>
+
+   {/* ===== Categories ===== */}
+   <h2 style={{marginTop:30,marginBottom:2}}>Perfect for every local business</h2>
+   <p className="muted" style={{marginTop:0,marginBottom:12}}>Cafes se le kar gyms tak — jahan bhi repeat customers matter karte hain.</p>
+   <div className="grid" style={{gridTemplateColumns:"repeat(3,1fr)"}}>
+    {[
+     ["☕","Cafés & Restaurants"],
+     ["💇","Salons & Spas"],
+     ["🏋️","Gyms & Fitness"],
+     ["🚗","Car Washes"],
+     ["🛍️","Retail Stores"],
+     ["💎","Jewelry Shops"],
+    ].map(([i,t])=>
+     <section className="card" key={t} style={{textAlign:"center",padding:"18px 10px"}}>
+      <div className="feature-icon" style={{margin:"0 auto 6px"}}>{i}</div>
+      <h3 style={{fontSize:13.5,margin:0}}>{t}</h3>
+     </section>)}
+   </div>
+
+   <h2 style={{marginTop:30,marginBottom:10}}>Why Bazaar Go</h2>
    <div className="grid feature-grid">
     {[
      ["📷","Shop QR Scan","Customer login ke baghair secure shop/branch QR scan."],

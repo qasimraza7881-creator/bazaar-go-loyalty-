@@ -44,5 +44,14 @@ export async function POST(req) {
     exp: Date.now() + 1000 * 60 * 60 * 24 * 365
   });
 
-  return NextResponse.json({ ok: true, businessId, branchId, token, qrValue: `BAZAARGO:${token}` });
+  // A plain "BAZAARGO:token" string isn't tappable by a normal phone
+  // camera app — it just offers a web search. Encode a real https:// link
+  // instead so scanning with any camera app opens /scan directly with the
+  // token already in the URL (see scan/page.js's `t` query param handling).
+  const origin =
+    process.env.NEXT_PUBLIC_SITE_URL ||
+    `https://${req.headers.get("host")}`;
+  const qrValue = `${origin}/scan?t=${encodeURIComponent(token)}`;
+
+  return NextResponse.json({ ok: true, businessId, branchId, token, qrValue });
 }
